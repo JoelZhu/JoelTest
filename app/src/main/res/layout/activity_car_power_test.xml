@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/connectCarService"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Connect"
+        android:textSize="28sp"
+        app:layout_constraintEnd_toStartOf="@id/disconnectCarService"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/disconnectCarService"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:text="Disconnect"
+        android:textSize="28sp"
+        app:layout_constraintBottom_toBottomOf="@id/connectCarService"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/connectCarService"
+        app:layout_constraintTop_toTopOf="@id/connectCarService" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/subscribeCarPowerContainer"
+        style="@style/JoelCardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintTop_toBottomOf="@id/disconnectCarService">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:padding="16dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/subscribeCarPower"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:text="Subscribe"
+                android:textSize="28sp"
+                app:layout_constraintBottom_toTopOf="@id/unsubscribeCarPower"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/unsubscribeCarPower"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:enabled="false"
+                android:text="Unsubscribe"
+                android:textSize="28sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@id/subscribeCarPower"
+                app:layout_constraintTop_toBottomOf="@id/subscribeCarPower" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/carPower"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:gravity="center|start"
+                android:textSize="26sp"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/unsubscribeCarPower"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Test" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/screenContainer"
+        style="@style/JoelCardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintTop_toBottomOf="@id/subscribeCarPowerContainer">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:padding="16dp">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/screenChange"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Test" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/typeSet"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:hint="Type"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/screenChange"
+                app:layout_constraintWidth_percent="0.25">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="28sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/screenOn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:enabled="false"
+                android:text="ScreenOn"
+                android:textSize="28sp"
+                app:layout_constraintBottom_toBottomOf="@id/typeSet"
+                app:layout_constraintStart_toEndOf="@id/typeSet"
+                app:layout_constraintTop_toTopOf="@id/typeSet" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/screenOff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:enabled="false"
+                android:text="ScreenOff"
+                android:textSize="28sp"
+                app:layout_constraintBottom_toBottomOf="@id/typeSet"
+                app:layout_constraintStart_toEndOf="@id/screenOn"
+                app:layout_constraintTop_toTopOf="@id/typeSet" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/screenState"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:enabled="false"
+                android:text="GetScreenOnOrOff"
+                android:textSize="28sp"
+                app:layout_constraintBottom_toBottomOf="@id/typeSet"
+                app:layout_constraintStart_toEndOf="@id/screenOff"
+                app:layout_constraintTop_toTopOf="@id/typeSet" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/switchToHost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:enabled="false"
+                android:text="SwitchToHost"
+                android:textSize="28sp"
+                app:layout_constraintBottom_toBottomOf="@id/typeSet"
+                app:layout_constraintStart_toEndOf="@id/screenState"
+                app:layout_constraintTop_toTopOf="@id/typeSet" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/switchToDevice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:enabled="false"
+                android:text="SwitchToDevice"
+                android:textSize="28sp"
+                app:layout_constraintBottom_toBottomOf="@id/typeSet"
+                app:layout_constraintStart_toEndOf="@id/switchToHost"
+                app:layout_constraintTop_toTopOf="@id/typeSet" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

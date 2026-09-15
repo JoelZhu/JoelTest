@@ -1,0 +1,85 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    namespace 'com.joelzhu.joeltest'
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.joelzhu.joeltest"
+        minSdk 28
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    flavorDimensions "project"
+
+    productFlavors {
+        mengbo_X3 {
+            dimension "project"
+        }
+        mengbo_SE10 {
+            dimension "project"
+        }
+        mengbo_T12T {
+            dimension "project"
+        }
+    }
+
+    signingConfigs {
+//        mengbo_SE10Debug {
+//            storeFile file('jks/mengbo_SE10.jks')
+//            storePassword 'MBrelease@2019'
+//            keyAlias = 'mbrelease'
+//            keyPassword 'MBrelease@2019'
+//        }
+//        mengbo_SE10Release {
+//            storeFile file('jks/mengbo_SE10.jks')
+//            storePassword 'MBrelease@2019'
+//            keyAlias = 'mbrelease'
+//            keyPassword 'MBrelease@2019'
+//        }
+
+        debug {
+            storeFile file('jks/mengbo_T12T.jks')
+            storePassword '123456'
+            keyAlias 'mengbo'
+            keyPassword '123456'
+        }
+        release {
+            storeFile file('jks/mengbo_T12T.jks')
+            storePassword '123456'
+            keyAlias 'mengbo'
+            keyPassword '123456'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
+    }
+    kotlinOptions {
+        jvmTarget = '21'
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.3.1'
+    implementation 'com.google.android.material:material:1.3.0'
+    implementation 'androidx.core:core-ktx:1.10.1'
+
+    mengbo_X3CompileOnly files("libs/android.car-mengbo_X3.jar")
+    mengbo_SE10CompileOnly files('libs/android.car-mengbo_SE10.jar')
+    mengbo_T12TCompileOnly files("libs/android.car-mengbo_T12T.jar")
+}

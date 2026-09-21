@@ -32,31 +32,31 @@ android {
     }
 
     signingConfigs {
-//        mengbo_SE10Debug {
-//            storeFile file('jks/mengbo_SE10.jks')
-//            storePassword 'MBrelease@2019'
-//            keyAlias = 'mbrelease'
-//            keyPassword 'MBrelease@2019'
-//        }
-//        mengbo_SE10Release {
-//            storeFile file('jks/mengbo_SE10.jks')
-//            storePassword 'MBrelease@2019'
-//            keyAlias = 'mbrelease'
-//            keyPassword 'MBrelease@2019'
-//        }
-
         debug {
-            storeFile file('jks/mengbo_T12T.jks')
-            storePassword '123456'
-            keyAlias 'mengbo'
-            keyPassword '123456'
+            storeFile file('jks/mengbo_SE10.jks')
+            storePassword 'MBrelease@2019'
+            keyAlias = 'mbrelease'
+            keyPassword 'MBrelease@2019'
         }
         release {
-            storeFile file('jks/mengbo_T12T.jks')
-            storePassword '123456'
-            keyAlias 'mengbo'
-            keyPassword '123456'
+            storeFile file('jks/mengbo_SE10.jks')
+            storePassword 'MBrelease@2019'
+            keyAlias = 'mbrelease'
+            keyPassword 'MBrelease@2019'
         }
+
+//        debug {
+//            storeFile file('jks/mengbo_T12T.jks')
+//            storePassword '123456'
+//            keyAlias 'mengbo'
+//            keyPassword '123456'
+//        }
+//        release {
+//            storeFile file('jks/mengbo_T12T.jks')
+//            storePassword '123456'
+//            keyAlias 'mengbo'
+//            keyPassword '123456'
+//        }
     }
 
     buildTypes {

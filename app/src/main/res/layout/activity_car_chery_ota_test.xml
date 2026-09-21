@@ -52,14 +52,100 @@
                     android:padding="16dp">
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/getSecureInfo"
+                        android:id="@+id/subscribe"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:text="GetSecureInfo"
+                        android:text="Subscribe"
                         android:textSize="28sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/unsubscribe"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:text="Unsubscribe"
+                        android:textSize="28sp"
+                        app:layout_constraintStart_toEndOf="@id/subscribe"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/getSecureInfoSync"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="GetSecureSync"
+                        android:textSize="28sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/subscribe" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/getSecureInfoAsync"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:text="GetSecureAsync"
+                        android:textSize="28sp"
+                        app:layout_constraintStart_toEndOf="@id/getSecureInfoSync"
+                        app:layout_constraintTop_toBottomOf="@id/subscribe" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/getAuthInfoSync"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:text="GetAuthSync"
+                        android:textSize="28sp"
+                        app:layout_constraintStart_toEndOf="@id/getSecureInfoAsync"
+                        app:layout_constraintTop_toBottomOf="@id/subscribe" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/getAuthInfoAsync"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:text="GetAuthAsync"
+                        android:textSize="28sp"
+                        app:layout_constraintStart_toEndOf="@id/getAuthInfoSync"
+                        app:layout_constraintTop_toBottomOf="@id/subscribe" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/sendPowerOn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="SendPowerOn"
+                        android:textSize="28sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/getSecureInfoSync" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/sendPowerOff"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:text="sendPowerOff"
+                        android:textSize="28sp"
+                        app:layout_constraintStart_toEndOf="@id/sendPowerOn"
+                        app:layout_constraintTop_toBottomOf="@id/getSecureInfoSync" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/sendPowerContinuous"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:text="sendPowerContinuous"
+                        android:textSize="28sp"
+                        app:layout_constraintStart_toEndOf="@id/sendPowerOff"
+                        app:layout_constraintTop_toBottomOf="@id/getSecureInfoSync" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
         </androidx.constraintlayout.widget.ConstraintLayout>

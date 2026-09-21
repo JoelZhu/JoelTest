@@ -140,9 +140,10 @@
                         android:id="@+id/setMulti"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Test Multi Set"
+                        android:layout_marginTop="16dp"
+                        android:text="SetMulti"
                         android:textSize="28sp"
-                        app:layout_constraintStart_toStartOf="@id/setValueLayout"
+                        app:layout_constraintStart_toStartOf="@id/set"
                         app:layout_constraintTop_toBottomOf="@id/set" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>

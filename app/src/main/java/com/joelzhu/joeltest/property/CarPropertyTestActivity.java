@@ -87,7 +87,7 @@ public class CarPropertyTestActivity extends BaseCarActivity<CarPropertyService>
         if (viewId == R.id.set) {
             toSetProperty();
         } else if (viewId == R.id.setMulti) {
-            testMultiProperties();
+            toSetMultiProperties();
         } else if (viewId == R.id.get) {
             toGetProperty();
         } else if (viewId == R.id.subscribe) {
@@ -146,11 +146,12 @@ public class CarPropertyTestActivity extends BaseCarActivity<CarPropertyService>
         }
     }
 
-    private void testMultiProperties() {
+    private void toSetMultiProperties() {
         final List<ICarPropertyService.Prop> properties = new ArrayList<>();
         properties.add(new ICarPropertyService.Prop(0x21403001, 0, "2"));
         properties.add(new ICarPropertyService.Prop(0x21403003, 0, "1"));
-        properties.add(new ICarPropertyService.Prop(0x21408008, 0, "10"));
+        properties.add(new ICarPropertyService.Prop(0x2340300E, 20, "3"));
+        properties.add(new ICarPropertyService.Prop(0x21408008, 2, "10"));
         getService().setProperties(properties);
     }
 

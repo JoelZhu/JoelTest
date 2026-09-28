@@ -4,63 +4,89 @@ import android.car.Car;
 import android.car.hardware.power.CarPowerManager;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
-import com.joelzhu.joeltest.base.BaseCarService;
+import com.joelzhu.joeltest.power.AbstractCarPowerService;
 import com.joelzhu.joeltest.power.ICarPowerService;
 
-public class CarPowerService extends BaseCarService implements ICarPowerService,
-        CarPowerManager.CarScreenOnListener {
-    private CarPowerManager mPowerManager = null;
+import java.util.concurrent.CompletableFuture;
 
-    private ICarPowerService.IOnScreen mOnScreenChange = null;
-
+public class CarPowerService extends AbstractCarPowerService<CarPowerManager> implements
+        CarPowerManager.CarScreenOnListener, CarPowerManager.CarPowerStateListenerWithCompletion {
+    @Nullable
     @Override
-    protected void onCarConnected(final @NonNull Car car) {
-        mPowerManager = (CarPowerManager) car.getCarManager(Car.POWER_SERVICE);
+    protected String serviceName() {
+        return Car.POWER_SERVICE;
     }
 
     @Override
     public void screenOn(final @CarPowerManager.CarPowerScreenType int type) {
-        if (mPowerManager == null) {
+        if (mManager == null) {
             return;
         }
 
-        mPowerManager.screenOn(type);
+        mManager.screenOn(type);
     }
 
     @Override
     public void screenOff(final @CarPowerManager.CarPowerScreenType int type) {
-        if (mPowerManager == null) {
+        if (mManager == null) {
             return;
         }
 
-        mPowerManager.screenOff(type);
+        mManager.screenOff(type);
     }
 
     @Override
     public boolean isScreenOn(final @CarPowerManager.CarPowerScreenType int type) {
-        if (mPowerManager == null) {
+        if (mManager == null) {
             return false;
         }
 
-        return mPowerManager.isScreenOn(type);
+        return mManager.isScreenOn(type);
+    }
+
+    @Override
+    public void setListenerWithCompletion() {
+        if (mManager == null) {
+            return;
+        }
+
+        mManager.setListenerWithCompletion(this);
     }
 
     @Override
     public void registerScreenStateCallback() {
-        mPowerManager.registerScreenStateCallback(this);
+        mManager.registerScreenStateCallback(this);
     }
 
     @Override
     public void unregisterScreenStateCallback() {
-        mPowerManager.unregisterScreenStateCallback(this);
+        mManager.unregisterScreenStateCallback(this);
     }
 
     @Override
     public void onScreenStateChanged(final int screenType, final boolean isScreenOn) {
         if (mOnScreenChange != null) {
             mOnScreenChange.onScreenStateChanged(screenType, isScreenOn);
+        }
+    }
+
+    @Override
+    public void onStateChanged(final int state, final CompletableFuture<Void> future) {
+        if (mOnState == null || future == null) {
+            return;
+        }
+
+        if (state == CarPowerManager.CarPowerStateListener.SHUTDOWN_PREPARE) {
+            mOnState.onReleaseResource(new CompletableFuture<>() {
+                @Override
+                public boolean complete(Void value) {
+                    future.complete(null);
+                    return true;
+                }
+            });
+            mOnState.onShutdownPrepare();
         }
     }
 
@@ -74,9 +100,5 @@ public class CarPowerService extends BaseCarService implements ICarPowerService,
     public void switchToDevice() {
         // Do nothing.
         Log.d(ICarPowerService.TAG, "Switch device host is not supported in Android11.");
-    }
-
-    public void registerScreenStateChanged(final ICarPowerService.IOnScreen listener) {
-        mOnScreenChange = listener;
     }
 }

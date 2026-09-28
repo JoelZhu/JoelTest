@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:sharedUserId="android.uid.system">
 
     <!-- CarProperty -->
     <uses-permission android:name="android.car.permission.CAR_VENDOR_EXTENSION" />
@@ -8,6 +9,8 @@
     <uses-permission android:name="android.car.permission.CAR_INFO" />
     <!-- CarPower -->
     <uses-permission android:name="android.car.permission.CAR_POWER" />
+    <!-- PowerState -->
+    <uses-permission android:name="android.car.permission.CONTROL_SHUTDOWN_PROCESS" />
     <!-- CarInput -->
     <uses-permission
         android:name="android.permission.MONITOR_INPUT"
@@ -37,8 +40,8 @@
         <activity android:name="com.joelzhu.joeltest.input.CarInputTestActivity" />
         <activity android:name="com.joelzhu.joeltest.power.CarPowerTestActivity" />
         <activity android:name="com.joelzhu.joeltest.property.CarPropertyTestActivity" />
-        <activity android:name="com.joelzhu.joeltest.mbrestriction.CarMBRestrictionTestActivity" />
-        <activity android:name="com.joelzhu.joeltest.mbcheryota.CarMBCheryOTAActivity" />
+        <activity android:name="com.joelzhu.joeltest.mbrestriction.MBRestrictionTestActivity" />
+        <activity android:name="com.joelzhu.joeltest.mbcheryota.MBCheryOTAActivity" />
     </application>
 
 </manifest>

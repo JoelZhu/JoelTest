@@ -7,41 +7,38 @@ import android.car.input.RotaryEvent;
 import android.view.KeyEvent;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
-import com.joelzhu.joeltest.base.BaseCarService;
-import com.joelzhu.joeltest.input.ICarInputService;
+import com.joelzhu.joeltest.input.AbstractCarInputService;
 
 import java.util.List;
 
-public class CarInputService extends BaseCarService implements ICarInputService,
-        CarInputManager.CarInputCaptureCallback {
-    private CarInputManager mInputManager = null;
-
-    private ICarInputService.IOnEvent mEventChange = null;
-
+public class CarInputService extends AbstractCarInputService<CarInputManager>
+        implements CarInputManager.CarInputCaptureCallback {
+    @Nullable
     @Override
-    protected void onCarConnected(final @NonNull Car car) {
-        mInputManager = (CarInputManager) car.getCarManager(Car.CAR_INPUT_SERVICE);
+    protected String serviceName() {
+        return Car.CAR_INPUT_SERVICE;
     }
 
     @Override
     public void registerInputListener() {
-        if (mInputManager == null) {
+        if (mManager == null) {
             return;
         }
 
-        mInputManager.requestInputEventCapture(CarOccupantZoneManager.DISPLAY_TYPE_MAIN,
+        mManager.requestInputEventCapture(CarOccupantZoneManager.DISPLAY_TYPE_MAIN,
                 new int[]{CarInputManager.INPUT_TYPE_ALL_INPUTS},
                 CarInputManager.CAPTURE_REQ_FLAGS_ALLOW_DELAYED_GRANT, this);
     }
 
     @Override
     public void unregisterInputListener() {
-        if (mInputManager == null) {
+        if (mManager == null) {
             return;
         }
 
-        mInputManager.releaseInputEventCapture(CarOccupantZoneManager.DISPLAY_TYPE_MAIN);
+        mManager.releaseInputEventCapture(CarOccupantZoneManager.DISPLAY_TYPE_MAIN);
     }
 
     @Override
@@ -65,9 +62,5 @@ public class CarInputService extends BaseCarService implements ICarInputService,
 
     @Override
     public final void onCaptureStateChanged(int targetDisplayType, @NonNull int[] inputTypes) {
-    }
-
-    public void registerEventChanged(final ICarInputService.IOnEvent event) {
-        mEventChange = event;
     }
 }

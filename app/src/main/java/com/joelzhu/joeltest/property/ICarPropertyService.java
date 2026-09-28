@@ -5,7 +5,7 @@ import com.joelzhu.joeltest.base.ICarService;
 import java.util.List;
 
 public interface ICarPropertyService extends ICarService {
-    String TAG = "JoelCarProperty";
+    String TAG = "JoelProperty";
 
     interface IOnProperty {
         void onPropertyChanged(final int propertyId, final int areaId, final Object value);

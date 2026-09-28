@@ -6,21 +6,33 @@ import android.os.Handler;
 import android.os.Looper;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
-public abstract class BaseCarService implements ICarService, Car.CarServiceLifecycleListener {
+public abstract class BaseCarService<Manager> implements ICarService,
+        Car.CarServiceLifecycleListener {
     private final Handler mHandler = new Handler(Looper.getMainLooper());
 
     private Car mCar = null;
-    private IOnServiceConnectState mListener = null;
+    private IOnServiceConnectState mConnectStateListener = null;
 
-    protected abstract void onCarConnected(final @NonNull Car car);
+    protected Manager mManager = null;
+
+    @Nullable
+    protected abstract String serviceName();
+
+    protected void onCarConnected(final @NonNull Car car) {
+        final String serviceName = serviceName();
+        if (serviceName != null) {
+            mManager = (Manager) car.getCarManager(serviceName());
+        }
+    }
 
     @Override
     public final void onLifecycleChanged(final @NonNull Car car, final boolean state) {
         this.mCar = car;
         onCarConnected(car);
-        if (mListener != null) {
-            mListener.onConnectStateChanged(state);
+        if (mConnectStateListener != null) {
+            mConnectStateListener.onConnectStateChanged(state);
         }
     }
 
@@ -37,10 +49,10 @@ public abstract class BaseCarService implements ICarService, Car.CarServiceLifec
     }
 
     protected final void registerServiceState(final IOnServiceConnectState listener) {
-        mListener = listener;
+        mConnectStateListener = listener;
     }
 
     protected final void unregisterServiceState() {
-        mListener = null;
+        mConnectStateListener = null;
     }
 }

@@ -5,28 +5,25 @@ import android.car.hardware.CarPropertyValue;
 import android.car.hardware.property.CarPropertyManager;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
-import com.joelzhu.joeltest.base.BaseCarService;
+import com.joelzhu.joeltest.property.AbstractCarPropertyService;
 import com.joelzhu.joeltest.property.ICarPropertyService;
 import com.joelzhu.joeltest.property.util.CarPropertyUtil;
 
 import java.util.List;
 
-public class CarPropertyService extends BaseCarService implements ICarPropertyService,
-        CarPropertyManager.CarPropertyEventCallback {
-    private CarPropertyManager mPropertyManager = null;
-
-    private ICarPropertyService.IOnProperty mPropertyChange = null;
-
+public class CarPropertyService extends AbstractCarPropertyService<CarPropertyManager>
+        implements CarPropertyManager.CarPropertyEventCallback {
+    @Nullable
     @Override
-    protected void onCarConnected(final @NonNull Car car) {
-        this.mPropertyManager = (CarPropertyManager) car.getCarManager(Car.PROPERTY_SERVICE);
+    protected String serviceName() {
+        return Car.PROPERTY_SERVICE;
     }
 
     @Override
     public void setProperty(final Prop prop) {
-        if (mPropertyManager == null) {
+        if (mManager == null) {
             return;
         }
 
@@ -36,12 +33,12 @@ public class CarPropertyService extends BaseCarService implements ICarPropertySe
         final String valueString = prop.getValueString();
         final Object value = CarPropertyUtil.parseValue(propertyId, valueString);
         Log.d(ICarPropertyService.TAG, "To set property: " + Integer.toHexString(propertyId));
-        mPropertyManager.setProperty(clazz, propertyId, areaId, value);
+        mManager.setProperty(clazz, propertyId, areaId, value);
     }
 
     @Override
     public void setProperties(final List<Prop> props) {
-        if (mPropertyManager == null || props == null) {
+        if (mManager == null || props == null) {
             return;
         }
 
@@ -58,17 +55,17 @@ public class CarPropertyService extends BaseCarService implements ICarPropertySe
                     propertyId, areaId, CarPropertyUtil.parseValue(propertyId, valueString));
             requests[index] = request;
         }
-        mPropertyManager.setProperties(requests);
+        mManager.setProperties(requests);
     }
 
     @Override
     public String getProperty(final int propertyId, final int areaId) {
-        if (mPropertyManager == null) {
+        if (mManager == null) {
             return "";
         }
 
         final Class clazz = CarPropertyUtil.parseType(propertyId);
-        final CarPropertyValue value = mPropertyManager.getProperty(clazz, propertyId, areaId);
+        final CarPropertyValue value = mManager.getProperty(clazz, propertyId, areaId);
         if (value == null) {
             return "";
         }
@@ -77,20 +74,20 @@ public class CarPropertyService extends BaseCarService implements ICarPropertySe
 
     @Override
     public void subscribeProperty(final int propertyId) {
-        if (mPropertyManager == null) {
+        if (mManager == null) {
             return;
         }
 
-        mPropertyManager.subscribePropertyEvents(propertyId, this);
+        mManager.subscribePropertyEvents(propertyId, this);
     }
 
     @Override
     public void unsubscribeProperty(final int propertyId) {
-        if (mPropertyManager == null) {
+        if (mManager == null) {
             return;
         }
 
-        mPropertyManager.unsubscribePropertyEvents(propertyId, this);
+        mManager.unsubscribePropertyEvents(propertyId, this);
     }
 
     @Override
@@ -107,10 +104,5 @@ public class CarPropertyService extends BaseCarService implements ICarPropertySe
 
     @Override
     public void onErrorEvent(int i, int i1) {
-
-    }
-
-    public void registerPropertyChanged(final IOnProperty listener) {
-        mPropertyChange = listener;
     }
 }

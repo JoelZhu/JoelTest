@@ -3,36 +3,34 @@ package com.joelzhu.joeltest;
 import android.car.Car;
 import android.car.CarInfoManager;
 
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
-import com.joelzhu.joeltest.base.BaseCarService;
-import com.joelzhu.joeltest.info.ICarInfoService;
+import com.joelzhu.joeltest.info.AbstractCarInfoService;
 
-public class CarInfoService extends BaseCarService implements ICarInfoService {
-    private CarInfoManager mInfoManager = null;
-
+public class CarInfoService extends AbstractCarInfoService<CarInfoManager> {
+    @Nullable
     @Override
-    protected void onCarConnected(final @NonNull Car car) {
-        mInfoManager = (CarInfoManager) car.getCarManager(Car.INFO_SERVICE);
+    protected String serviceName() {
+        return Car.INFO_SERVICE;
     }
 
     @Override
     public String getHWVersion() {
-        return mInfoManager.getMBHWVersion();
+        return mManager.getMBHWVersion();
     }
 
     @Override
     public String getSOCVersion() {
-        return mInfoManager.getMBSOCVersion();
+        return mManager.getMBSOCVersion();
     }
 
     @Override
     public String getMCUVersion() {
-        return mInfoManager.getMBMCUVersion();
+        return mManager.getMBMCUVersion();
     }
 
     @Override
     public String getVINCode() {
-        return mInfoManager.getMBVINCode();
+        return mManager.getMBVINCode();
     }
 }

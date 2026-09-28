@@ -1,5 +1,7 @@
 package com.joelzhu.joeltest.info;
 
+import static com.joelzhu.joeltest.info.ICarInfoService.TAG;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -47,16 +49,16 @@ public class CarInfoTestActivity extends BaseCarActivity<CarInfoService>
         final int viewId = view.getId();
         if (viewId == R.id.getHWVersion) {
             final String version = getService().getHWVersion();
-            Log.d(ICarInfoService.TAG, "Got HW version: " + version);
+            Log.d(TAG, "Got HW version: " + version);
         } else if (viewId == R.id.getROMVersion) {
             final String version = getService().getSOCVersion();
-            Log.d(ICarInfoService.TAG, "Got ROM version: " + version);
+            Log.d(TAG, "Got ROM version: " + version);
         } else if (viewId == R.id.getMCUVersion) {
             final String version = getService().getMCUVersion();
-            Log.d(ICarInfoService.TAG, "Got MCU version: " + version);
+            Log.d(TAG, "Got MCU version: " + version);
         } else if (viewId == R.id.getVINCode) {
             final String version = getService().getVINCode();
-            Log.d(ICarInfoService.TAG, "Got VIN code: " + version);
+            Log.d(TAG, "Got VIN code: " + version);
         }
     }
 }

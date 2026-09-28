@@ -3,8 +3,8 @@ package com.joelzhu.joeltest.mbcheryota;
 import com.joelzhu.joeltest.mbcheryota.entity.AuthInfo;
 import com.joelzhu.joeltest.mbcheryota.entity.SecureInfo;
 
-public interface ICarCheryOTAService {
-    String TAG = "CheryOTA";
+public interface ICheryOTAService {
+    String TAG = "JoelCheryOTA";
 
     interface IMBOTACallback {
         void onSecureInfoChanged(SecureInfo info);

@@ -1,5 +1,7 @@
 package com.joelzhu.joeltest.property;
 
+import static com.joelzhu.joeltest.property.ICarPropertyService.TAG;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -103,7 +105,7 @@ public class CarPropertyTestActivity extends BaseCarActivity<CarPropertyService>
         final String content = "Property[ id: 0x" + Integer.toHexString(propertyId).toUpperCase() +
                 ", area: 0x" + Integer.toHexString(areaId).toUpperCase() +
                 ", value: " + CarPropertyUtil.propertyValueToString(propertyId, value) + " ]";
-        Log.e(ICarPropertyService.TAG, "onPropertyValueChanged, " + content);
+        Log.e(TAG, "onPropertyValueChanged, " + content);
         final int[] property = parseProperty();
         if (property == null || property.length < 2) {
             return;
@@ -122,19 +124,19 @@ public class CarPropertyTestActivity extends BaseCarActivity<CarPropertyService>
 
         try {
             final String valueString = mPropertySetText.getText().toString();
-            Log.e(ICarPropertyService.TAG, "Set property: 0x" + Integer.toHexString(
+            Log.e(TAG, "Set property: 0x" + Integer.toHexString(
                     property[0]) + ", value: " + valueString);
             getService().setProperty(
                     new ICarPropertyService.Prop(property[0], property[1], valueString));
         } catch (Exception exception) {
-            Log.e(ICarPropertyService.TAG, "Set property got exception, " + exception.getMessage());
+            Log.e(TAG, "Set property got exception, " + exception.getMessage());
         }
     }
 
     private void toGetProperty() {
         final int[] property = parseProperty();
         if (property == null || property.length < 2) {
-            Log.e(ICarPropertyService.TAG, "Property illegal.");
+            Log.e(TAG, "Property illegal.");
             return;
         }
 
@@ -142,7 +144,7 @@ public class CarPropertyTestActivity extends BaseCarActivity<CarPropertyService>
             final String valueString = getService().getProperty(property[0], property[1]);
             mPropertyGetText.setText(valueString);
         } catch (Exception exception) {
-            Log.e(ICarPropertyService.TAG, "Get property got exception, " + exception.getMessage());
+            Log.e(TAG, "Get property got exception, " + exception.getMessage());
         }
     }
 
@@ -183,11 +185,10 @@ public class CarPropertyTestActivity extends BaseCarActivity<CarPropertyService>
                 propertyId = Integer.parseInt(propertyIdString);
             }
         } catch (Exception exception) {
-            Log.e(ICarPropertyService.TAG,
-                    "Parse property id got exception, " + exception.getMessage());
+            Log.e(TAG, "Parse property id got exception, " + exception.getMessage());
         }
         if (propertyId <= 0) {
-            Log.w(ICarPropertyService.TAG, "Invalid property id: " + propertyId);
+            Log.w(TAG, "Invalid property id: " + propertyId);
             return null;
         }
 
@@ -200,8 +201,7 @@ public class CarPropertyTestActivity extends BaseCarActivity<CarPropertyService>
                 areaId = Integer.parseInt(areaIdString);
             }
         } catch (Exception exception) {
-            Log.e(ICarPropertyService.TAG,
-                    "Parse area id got exception, " + exception.getMessage());
+            Log.e(TAG, "Parse area id got exception, " + exception.getMessage());
         }
         return new int[]{propertyId, areaId};
     }

@@ -1,24 +1,26 @@
 package com.joelzhu.joeltest.mbcheryota;
 
+import static com.joelzhu.joeltest.mbcheryota.ICheryOTAService.TAG;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
 
-import com.joelzhu.joeltest.CarCheryOTAService;
+import com.joelzhu.joeltest.CheryOTAService;
 import com.joelzhu.joeltest.R;
 import com.joelzhu.joeltest.base.BaseCarActivity;
 import com.joelzhu.joeltest.base.CarConfiguration;
 import com.joelzhu.joeltest.mbcheryota.entity.AuthInfo;
 import com.joelzhu.joeltest.mbcheryota.entity.SecureInfo;
 
-public class CarMBCheryOTAActivity extends BaseCarActivity<CarCheryOTAService>
-        implements View.OnClickListener, ICarCheryOTAService.IMBOTACallback {
+public class MBCheryOTAActivity extends BaseCarActivity<CheryOTAService>
+        implements View.OnClickListener, ICheryOTAService.IMBOTACallback {
     @Override
-    protected CarConfiguration<CarCheryOTAService> buildCarLayout() {
-        return new CarConfiguration.Builder<CarCheryOTAService>()
-                .createServiceImpl(new CarCheryOTAService())
+    protected CarConfiguration<CheryOTAService> buildCarLayout() {
+        return new CarConfiguration.Builder<CheryOTAService>()
+                .createServiceImpl(new CheryOTAService())
                 .layoutResId(R.layout.activity_car_chery_ota_test)
                 .connectResId(R.id.connectCarService)
                 .disconnectResId(R.id.disconnectCarService)
@@ -61,8 +63,7 @@ public class CarMBCheryOTAActivity extends BaseCarActivity<CarCheryOTAService>
         } else if (view.getId() == R.id.getSecureInfoSync) {
             new Thread(() -> {
                 final SecureInfo info = getService().getSecureInfoSync();
-                Log.d(ICarCheryOTAService.TAG,
-                        "Got secure info: " + (info == null ? "null" : info));
+                Log.d(TAG, "Got secure info: " + (info == null ? "null" : info));
             }).start();
         } else if (view.getId() == R.id.getSecureInfoAsync) {
             getService().getSecureInfoAsync();
@@ -70,8 +71,7 @@ public class CarMBCheryOTAActivity extends BaseCarActivity<CarCheryOTAService>
             new Thread(() -> {
                 final AuthInfo info = getService().getAuthInfoSync(
                         new byte[]{0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8});
-                Log.d(ICarCheryOTAService.TAG,
-                        "Got auth info: " + (info == null ? "null" : info));
+                Log.d(TAG, "Got auth info: " + (info == null ? "null" : info));
             }).start();
         } else if (view.getId() == R.id.getAuthInfoAsync) {
             getService().getAuthInfoAsync(new byte[]{0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8});
@@ -86,21 +86,21 @@ public class CarMBCheryOTAActivity extends BaseCarActivity<CarCheryOTAService>
 
     @Override
     public void onSecureInfoChanged(SecureInfo info) {
-        Log.d(ICarCheryOTAService.TAG, "onSecureInfoChanged, " + info);
+        Log.d(TAG, "onSecureInfoChanged, " + info);
     }
 
     @Override
     public void onAuthenticationChanged(AuthInfo info) {
-        Log.d(ICarCheryOTAService.TAG, "onAuthInfoChanged, " + info);
+        Log.d(TAG, "onAuthInfoChanged, " + info);
     }
 
     @Override
     public void onPowerOnState(int state) {
-        Log.d(ICarCheryOTAService.TAG, "onPowerOnState, state: " + state);
+        Log.d(TAG, "onPowerOnState, state: " + state);
     }
 
     @Override
     public void onPowerOffState(int state) {
-        Log.d(ICarCheryOTAService.TAG, "onPowerOffState, state: " + state);
+        Log.d(TAG, "onPowerOffState, state: " + state);
     }
 }

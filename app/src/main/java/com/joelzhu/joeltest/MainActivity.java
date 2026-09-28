@@ -9,8 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.joelzhu.joeltest.info.CarInfoTestActivity;
 import com.joelzhu.joeltest.input.CarInputTestActivity;
-import com.joelzhu.joeltest.mbcheryota.CarMBCheryOTAActivity;
-import com.joelzhu.joeltest.mbrestriction.CarMBRestrictionTestActivity;
+import com.joelzhu.joeltest.mbcheryota.MBCheryOTAActivity;
+import com.joelzhu.joeltest.mbrestriction.MBRestrictionTestActivity;
 import com.joelzhu.joeltest.power.CarPowerTestActivity;
 import com.joelzhu.joeltest.property.CarPropertyTestActivity;
 
@@ -22,8 +22,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             R.id.carInfo, CarInfoTestActivity.class,
             R.id.carInput, CarInputTestActivity.class,
             R.id.carPower, CarPowerTestActivity.class,
-            R.id.carMBRestriction, CarMBRestrictionTestActivity.class,
-            R.id.carMBCheryOTA, CarMBCheryOTAActivity.class
+            R.id.carMBRestriction, MBRestrictionTestActivity.class,
+            R.id.carMBCheryOTA, MBCheryOTAActivity.class
     );
 
     @Override

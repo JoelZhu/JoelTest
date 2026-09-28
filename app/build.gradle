@@ -32,34 +32,26 @@ android {
     }
 
     signingConfigs {
-        debug {
-            storeFile file('jks/mengbo_SE10.jks')
-            storePassword 'MBrelease@2019'
-            keyAlias = 'mbrelease'
-            keyPassword 'MBrelease@2019'
-        }
-        release {
+        mengbo_SE10 {
             storeFile file('jks/mengbo_SE10.jks')
             storePassword 'MBrelease@2019'
             keyAlias = 'mbrelease'
             keyPassword 'MBrelease@2019'
         }
 
-//        debug {
-//            storeFile file('jks/mengbo_T12T.jks')
-//            storePassword '123456'
-//            keyAlias 'mengbo'
-//            keyPassword '123456'
-//        }
-//        release {
-//            storeFile file('jks/mengbo_T12T.jks')
-//            storePassword '123456'
-//            keyAlias 'mengbo'
-//            keyPassword '123456'
-//        }
+        mengbo_T12T {
+            storeFile file('jks/mengbo_T12T.jks')
+            storePassword '123456'
+            keyAlias 'mengbo'
+            keyPassword '123456'
+        }
     }
 
     buildTypes {
+        debug {
+            // 置为 null，覆盖默认的 debug keystore，让 flavor 的签名生效
+            signingConfig null
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -71,6 +63,14 @@ android {
     }
     kotlinOptions {
         jvmTarget = '21'
+    }
+
+    // flavor 创建后统一绑定同名的 signingConfig
+    android.productFlavors.all { flavor ->
+        def cfg = android.signingConfigs.findByName(flavor.name)
+        if (cfg != null) {
+            flavor.signingConfig = cfg
+        }
     }
 }
 

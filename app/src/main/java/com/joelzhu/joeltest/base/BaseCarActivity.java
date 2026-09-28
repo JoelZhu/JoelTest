@@ -15,7 +15,8 @@ import com.joelzhu.joeltest.property.ICarPropertyService;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class BaseCarActivity<CarService extends BaseCarService> extends AppCompatActivity
+public abstract class BaseCarActivity<CarService extends BaseCarService<?>>
+        extends AppCompatActivity
         implements View.OnClickListener, ICarService.IOnServiceConnectState {
     private final CarConfiguration<CarService> mCarLayout = buildCarLayout();
 
@@ -25,6 +26,9 @@ public abstract class BaseCarActivity<CarService extends BaseCarService> extends
     private List<View> mChangeableViews = new ArrayList<>();
 
     protected abstract CarConfiguration<CarService> buildCarLayout();
+
+    protected void onManagerReady() {
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,6 +71,7 @@ public abstract class BaseCarActivity<CarService extends BaseCarService> extends
         Log.d(ICarPropertyService.TAG, "onLifecycleChanged, connected: " + isConnected);
         if (isConnected) {
             enableUI();
+            onManagerReady();
         } else {
             disableUI();
         }

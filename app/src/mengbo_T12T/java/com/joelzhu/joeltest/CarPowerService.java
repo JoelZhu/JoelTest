@@ -2,84 +2,97 @@ package com.joelzhu.joeltest;
 
 import android.car.Car;
 import android.car.hardware.power.CarPowerManager;
+import android.util.Log;
 
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
-import com.joelzhu.joeltest.base.BaseCarService;
-import com.joelzhu.joeltest.power.ICarPowerService;
+import com.joelzhu.joeltest.power.AbstractCarPowerService;
 
-public class CarPowerService extends BaseCarService implements ICarPowerService,
-        CarPowerManager.CarScreenOnListener {
-    private CarPowerManager mPowerManager = null;
+import java.util.concurrent.CompletableFuture;
 
-    private IOnScreen mOnScreenChange = null;
-
+public class CarPowerService extends AbstractCarPowerService<CarPowerManager>
+        implements CarPowerManager.CarScreenOnListener,
+        CarPowerManager.CarPowerStateListenerWithCompletion {
+    @Nullable
     @Override
-    protected void onCarConnected(final @NonNull Car car) {
-        mPowerManager = (CarPowerManager) car.getCarManager(Car.POWER_SERVICE);
+    protected String serviceName() {
+        return Car.POWER_SERVICE;
     }
 
     @Override
     public void screenOn(final @CarPowerManager.CarPowerScreenType int type) {
-        if (mPowerManager == null) {
+        if (mManager == null) {
             return;
         }
 
-        mPowerManager.screenOn(type);
+        mManager.screenOn(type);
     }
 
     @Override
     public void screenOff(final @CarPowerManager.CarPowerScreenType int type) {
-        if (mPowerManager == null) {
+        if (mManager == null) {
             return;
         }
 
-        mPowerManager.screenOff(type);
+        mManager.screenOff(type);
     }
 
     @Override
     public boolean isScreenOn(final @CarPowerManager.CarPowerScreenType int type) {
-        if (mPowerManager == null) {
+        if (mManager == null) {
             return false;
         }
 
-        return mPowerManager.isScreenOn(type);
+        return mManager.isScreenOn(type);
+    }
+
+    @Override
+    public void setListenerWithCompletion() {
+        if (mManager == null) {
+            return;
+        }
+        if (mExecutor == null) {
+            Log.e(TAG, "Executor is null, call setupExecutor first please.");
+            return;
+        }
+
+        mManager.setListenerWithCompletion(mExecutor, this);
     }
 
     @Override
     public void registerScreenStateCallback() {
-        if (mPowerManager == null) {
+        if (mManager == null) {
             return;
         }
 
-        mPowerManager.registerScreenStateCallback(this);
+        mManager.registerScreenStateCallback(this);
     }
 
     @Override
     public void unregisterScreenStateCallback() {
-        if (mPowerManager == null) {
+        if (mManager == null) {
             return;
         }
 
-        mPowerManager.unregisterScreenStateCallback(this);
+        mManager.unregisterScreenStateCallback(this);
     }
 
     @Override
     public void switchToHost() {
-        if (mPowerManager == null) {
+        if (mManager == null) {
             return;
         }
 
-        mPowerManager.switchToHostMode();
+        mManager.switchToHostMode();
     }
 
     @Override
     public void switchToDevice() {
-        if (mPowerManager == null) {
+        if (mManager == null) {
             return;
         }
 
-        mPowerManager.switchToDeviceMode();
+        mManager.switchToDeviceMode();
     }
 
     @Override
@@ -89,7 +102,26 @@ public class CarPowerService extends BaseCarService implements ICarPowerService,
         }
     }
 
-    public void registerScreenStateChanged(final IOnScreen listener) {
-        mOnScreenChange = listener;
+    @Override
+    public void onStateChanged(final int state,
+            final @Nullable CarPowerManager.CompletablePowerStateChangeFuture future) {
+        if (mOnState == null || future == null) {
+            return;
+        }
+
+        if (state == CarPowerManager.STATE_PRE_SHUTDOWN_PREPARE) {
+            Log.d(TAG, "Received STATE_PRE_SHUTDOWN_PREPARE.");
+            mOnState.onReleaseResource(new CompletableFuture<>() {
+                @Override
+                public boolean complete(Void value) {
+                    future.complete();
+                    Log.d(TAG, "Release resource completed.");
+                    return true;
+                }
+            });
+        } else if (state == CarPowerManager.STATE_SHUTDOWN_PREPARE) {
+            Log.d(TAG, "Received STATE_SHUTDOWN_PREPARE.");
+            mOnState.onShutdownPrepare();
+        }
     }
 }

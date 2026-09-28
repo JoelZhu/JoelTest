@@ -1,19 +1,16 @@
 package com.joelzhu.joeltest;
 
-import android.car.Car;
+import androidx.annotation.Nullable;
 
-import androidx.annotation.NonNull;
-
-import com.joelzhu.joeltest.base.BaseCarService;
-import com.joelzhu.joeltest.mbcheryota.ICarCheryOTAService;
+import com.joelzhu.joeltest.mbcheryota.AbstractCheryOTAService;
 import com.joelzhu.joeltest.mbcheryota.entity.AuthInfo;
 import com.joelzhu.joeltest.mbcheryota.entity.SecureInfo;
 
-public class CarCheryOTAService extends BaseCarService implements ICarCheryOTAService {
-    private IMBOTACallback mListener = null;
-
+public class CheryOTAService extends AbstractCheryOTAService<Void> {
+    @Nullable
     @Override
-    protected void onCarConnected(@NonNull Car car) {
+    protected String serviceName() {
+        return null;
     }
 
     @Override
@@ -52,9 +49,5 @@ public class CarCheryOTAService extends BaseCarService implements ICarCheryOTASe
 
     @Override
     public void unregisterListener() {
-    }
-
-    public void registerListenerInner(final IMBOTACallback listener) {
-        mListener = listener;
     }
 }

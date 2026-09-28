@@ -1,5 +1,7 @@
 package com.joelzhu.joeltest.power;
 
+import static com.joelzhu.joeltest.power.ICarPowerService.TAG;
+
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -14,8 +16,10 @@ import com.joelzhu.joeltest.R;
 import com.joelzhu.joeltest.base.BaseCarActivity;
 import com.joelzhu.joeltest.base.CarConfiguration;
 
+import java.util.concurrent.CompletableFuture;
+
 public class CarPowerTestActivity extends BaseCarActivity<CarPowerService>
-        implements View.OnClickListener, ICarPowerService.IOnScreen {
+        implements View.OnClickListener, ICarPowerService.IOnScreen, ICarPowerService.IOnState {
     private MaterialTextView mScreenChange;
 
     @Override
@@ -51,7 +55,15 @@ public class CarPowerTestActivity extends BaseCarActivity<CarPowerService>
         mScreenChange = findViewById(R.id.screenChange);
         mScreenChange.setMovementMethod(ScrollingMovementMethod.getInstance());
 
+        getService().setupExecutor(this);
+        getService().setListenerWithCompletion();
         getService().registerScreenStateChanged(this);
+        getService().registerOnStateChanged(this);
+    }
+
+    @Override
+    protected void onManagerReady() {
+        getService().setListenerWithCompletion();
     }
 
     @Override
@@ -67,7 +79,7 @@ public class CarPowerTestActivity extends BaseCarActivity<CarPowerService>
             getService().screenOff(parseScreenType());
         } else if (view.getId() == R.id.screenState) {
             final boolean isScreenOn = getService().isScreenOn(parseScreenType());
-            Log.d(ICarPowerService.TAG, "Is screen on: " + isScreenOn);
+            Log.d(TAG, "Is screen on: " + isScreenOn);
         } else if (view.getId() == R.id.switchToHost) {
             getService().switchToHost();
         } else if (view.getId() == R.id.switchToDevice) {
@@ -78,8 +90,21 @@ public class CarPowerTestActivity extends BaseCarActivity<CarPowerService>
     @Override
     public void onScreenStateChanged(final int screenType, final boolean isScreenOn) {
         final String content = "Screen state changed, type: " + screenType + ", on: " + isScreenOn;
-        Log.d(ICarPowerService.TAG, content);
+        Log.d(TAG, content);
         runOnUiThread(() -> mScreenChange.setText(content));
+    }
+
+    @Override
+    public void onReleaseResource(final CompletableFuture<Void> future) {
+        new Thread(() -> {
+            try {
+                Thread.sleep(3000);
+                Log.d(TAG, "Sleep finished, to complete it.");
+                future.complete(null);
+            } catch (InterruptedException exception) {
+                Log.e(TAG, "Sleep got exception, " + exception.getMessage());
+            }
+        }).start();
     }
 
     private int parseScreenType() {
@@ -88,8 +113,7 @@ public class CarPowerTestActivity extends BaseCarActivity<CarPowerService>
             final String typeString = ((EditText) findViewById(R.id.type)).getText().toString();
             type = Integer.parseInt(typeString);
         } catch (Exception exception) {
-            Log.e(ICarPowerService.TAG,
-                    "Parse screen type got exception, " + exception.getMessage());
+            Log.e(TAG, "Parse screen type got exception, " + exception.getMessage());
         }
 
         return type;

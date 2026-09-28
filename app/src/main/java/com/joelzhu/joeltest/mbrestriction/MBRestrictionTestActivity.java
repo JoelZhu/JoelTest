@@ -8,20 +8,20 @@ import androidx.annotation.Nullable;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
-import com.joelzhu.joeltest.CarMBRestrictionService;
+import com.joelzhu.joeltest.MBRestrictionService;
 import com.joelzhu.joeltest.R;
 import com.joelzhu.joeltest.base.BaseCarActivity;
 import com.joelzhu.joeltest.base.CarConfiguration;
 
 // FIXME: 待优化，紧急写的demo
-public class CarMBRestrictionTestActivity extends BaseCarActivity<CarMBRestrictionService>
+public class MBRestrictionTestActivity extends BaseCarActivity<MBRestrictionService>
         implements View.OnClickListener {
     private MaterialTextView mScreenChange;
 
     @Override
-    protected CarConfiguration<CarMBRestrictionService> buildCarLayout() {
-        return new CarConfiguration.Builder<CarMBRestrictionService>()
-                .createServiceImpl(new CarMBRestrictionService())
+    protected CarConfiguration<MBRestrictionService> buildCarLayout() {
+        return new CarConfiguration.Builder<MBRestrictionService>()
+                .createServiceImpl(new MBRestrictionService())
                 .layoutResId(R.layout.activity_car_mb_restriction_test)
                 .connectResId(R.id.connectCarService)
                 .disconnectResId(R.id.disconnectCarService)
